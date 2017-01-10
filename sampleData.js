@@ -32,7 +32,7 @@ export const sampleActivities = [
   {
     id: 5,
     type: "Running",
-    date: "09.01.2017",
+    date: "05.01.2017",
     amount: 10,
     unit: "km",
     duration: 67

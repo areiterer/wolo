@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     margin: 5,
     padding: 10,
-    backgroundColor: 'gray',
+    backgroundColor: '#C7C7C7',
     flexDirection: 'row'
   },
   details: {
