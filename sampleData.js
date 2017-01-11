@@ -36,5 +36,77 @@ export const sampleActivities = [
     amount: 10,
     unit: "km",
     duration: 67
+  },
+  {
+    id: 5,
+    type: "Running",
+    date: "05.01.2017",
+    amount: 10,
+    unit: "km",
+    duration: 67
+  },
+  {
+    id: 5,
+    type: "Running",
+    date: "05.01.2017",
+    amount: 10,
+    unit: "km",
+    duration: 67
+  },
+  {
+    id: 5,
+    type: "Running",
+    date: "05.01.2017",
+    amount: 10,
+    unit: "km",
+    duration: 67
+  },
+  {
+    id: 5,
+    type: "Running",
+    date: "05.01.2017",
+    amount: 10,
+    unit: "km",
+    duration: 67
+  },
+  {
+    id: 5,
+    type: "Running",
+    date: "05.01.2017",
+    amount: 10,
+    unit: "km",
+    duration: 67
+  },
+  {
+    id: 5,
+    type: "Running",
+    date: "05.01.2017",
+    amount: 10,
+    unit: "km",
+    duration: 67
+  },
+  {
+    id: 5,
+    type: "Running",
+    date: "05.01.2017",
+    amount: 10,
+    unit: "km",
+    duration: 67
+  },
+  {
+    id: 5,
+    type: "Running",
+    date: "05.01.2017",
+    amount: 10,
+    unit: "km",
+    duration: 67
+  },
+  {
+    id: 5,
+    type: "Running",
+    date: "05.01.2017",
+    amount: 10,
+    unit: "km",
+    duration: 67
   }
 ];

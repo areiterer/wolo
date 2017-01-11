@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import {
   Text,
+  View,
   ListView
 } from 'react-native';
 
 import ActivityItem from './ActivityItem';
+import AddButton from './AddButton';
+
 import { sampleActivities } from '../sampleData';
 
 
@@ -15,14 +18,21 @@ class History extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(sampleActivities)
     };
+
+    this.addNewActivity = this.addNewActivity.bind(this);
+  }
+
+  addNewActivity() {
+    alert('TODO: Add new item');
   }
 
   render() {
     return (
-      <ListView
-        style={{ alignSelf: 'stretch' }}
-        dataSource={this.state.dataSource}
-        renderRow={(rowData) =>
+      <View style={{ alignSelf: 'stretch', flex: 1 }}>
+        <ListView
+          style={{ alignSelf: 'stretch' }}
+          dataSource={this.state.dataSource}
+          renderRow={(rowData) =>
           <ActivityItem
             type={rowData.type}
             date={rowData.date}
@@ -31,7 +41,9 @@ class History extends Component {
             duration={rowData.duration}
           />
         }
-      />
+        />
+        <AddButton onAdd={this.addNewActivity} />
+      </View>
     );
   }
 }
