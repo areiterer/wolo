@@ -6,6 +6,8 @@ import {
   Button
 } from 'react-native';
 
+import History from './History';
+
 class Statistics extends Component {
   constructor(props){
     super(props);
@@ -15,7 +17,7 @@ class Statistics extends Component {
     return (
       <View style={{flex: 1, alignSelf: 'stretch'}}>
         <Button title={"Go to History"}
-        onPress={() => this.props.navigator.replace({name: 'History'}) }/>
+        onPress={() => this.props.navigator.replace({component: History}) }/>
         <Text>This is the statistics screen. It will be the main screen and entry point of the app</Text>
       </View>
     )

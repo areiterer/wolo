@@ -6,6 +6,7 @@ import {
   Button
 } from 'react-native';
 
+import Statistics from './Statistics';
 import ActivityItem from './ActivityItem';
 import AddButton from './AddButton';
 
@@ -33,7 +34,7 @@ class History extends Component {
     return (
       <View style={{ alignSelf: 'stretch', flex: 1 }}>
         <Button title={"Go to Statistic"}
-                onPress={() => this.props.navigator.replace({name: 'Statistics'}) }/>
+                onPress={() => this.props.navigator.replace({component: Statistics}) }/>
         <ListView
           style={{ alignSelf: 'stretch' }}
           dataSource={this.state.dataSource}
