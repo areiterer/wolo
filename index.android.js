@@ -26,7 +26,7 @@ export default class Wolo extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          This is Wolo!
         </Text>
         <Navigator
           configureScene={ this.configureScene }
