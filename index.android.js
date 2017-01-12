@@ -29,6 +29,7 @@ export default class Wolo extends Component {
           Welcome to React Native!
         </Text>
         <Navigator
+          configureScene={ this.configureScene }
           style={{ flex:1, alignSelf: 'stretch' }}
           initialRoute={{ component: Statistics }}
           renderScene={ this.renderScene } />
@@ -38,6 +39,12 @@ export default class Wolo extends Component {
 
   renderScene(route, navigator) {
     return React.createElement(route.component, { ...this.props, ...route.passProps, route, navigator })
+  }
+  configureScene(route, routeStack) {
+    if(route.type === 'Modal') {
+      return Navigator.SceneConfigs.FloatFromBottom
+    }
+    return Navigator.SceneConfigs.PushFromRight
   }
 }
 

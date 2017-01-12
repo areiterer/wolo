@@ -9,6 +9,7 @@ import {
 import Statistics from './Statistics';
 import ActivityItem from './ActivityItem';
 import AddButton from './AddButton';
+import AddActivity from './AddActivity';
 
 import { sampleActivities } from '../sampleData';
 
@@ -26,7 +27,8 @@ class History extends Component {
 
   addNewActivity() {
     this.props.navigator.push({
-      name: 'Statistics'
+      type: 'Modal',
+      component: AddActivity
     })
   }
 
