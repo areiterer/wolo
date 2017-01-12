@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   Text,
   View,
-  ListView
+  ListView,
+  Button
 } from 'react-native';
 
 import ActivityItem from './ActivityItem';
@@ -23,12 +24,16 @@ class History extends Component {
   }
 
   addNewActivity() {
-    alert('TODO: Add new item');
+    this.props.navigator.push({
+      name: 'Statistics'
+    })
   }
 
   render() {
     return (
       <View style={{ alignSelf: 'stretch', flex: 1 }}>
+        <Button title={"Go to Statistic"}
+                onPress={() => this.props.navigator.replace({name: 'Statistics'}) }/>
         <ListView
           style={{ alignSelf: 'stretch' }}
           dataSource={this.state.dataSource}
@@ -47,5 +52,9 @@ class History extends Component {
     );
   }
 }
+
+History.propTypes = {
+  navigator: PropTypes.object.isRequired
+};
 
 export default History;

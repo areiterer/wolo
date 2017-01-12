@@ -9,23 +9,45 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Navigator
 } from 'react-native';
 
 import History from './components/History';
+import Statistics from './components/Statistics';
 
 export default class Wolo extends Component {
+  constructor(props) {
+    super(props);
+
+    this.renderScene = this.renderScene.bind(this);
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
-        <History />
+        <Navigator
+          style={{ flex:1, alignSelf: 'stretch' }}
+          initialRoute={{ name: 'Statistics' }}
+          renderScene={ this.renderScene } />
       </View>
     );
   }
+
+  renderScene(route, navigator) {
+    if(route.name == 'Statistics') {
+      return <Statistics navigator={navigator} />
+    }
+    if(route.name == 'History') {
+      return <History navigator={navigator} />
+    }
+  }
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
