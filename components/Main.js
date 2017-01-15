@@ -9,32 +9,65 @@ import Statistics from './Statistics';
 import History from './History';
 import AddActivity from './AddActivity';
 
+import * as Api from '../api';
 
 class Main extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      activities: [],
+      selectedTab: 0
+    };
+
     this.addNewActivity = this.addNewActivity.bind(this);
+    this.showAddModal = this.showAddModal.bind(this);
   }
 
-  addNewActivity() {
-    this.props.navigator.push({
-      type: 'Modal',
-      component: AddActivity
+  componentWillMount() {
+    Api.getActivityList().then(allActivities => this.setState({
+      activities: allActivities
+    }));
+  }
+
+  addNewActivity(activity) {
+    Api.saveActivity(activity).then(act => this.setState({
+      activities: [...this.state.activities, act]
+    }));
+
+    this.props.navigator.pop();
+    this.setState({
+      selectedTab: 1
     })
+  }
+
+  showAddModal() {
+    this.props.navigator.push({
+        type: 'Modal',
+        component: AddActivity,
+        passProps: {
+          addNewActivity: this.addNewActivity
+        }
+      }
+    )
   }
 
   render() {
     return (
       <View style={{alignSelf: 'stretch', flex: 1}}>
         <ScrollableTabView renderTabBar={() => <CustomTabBar />}
-          tabBarPosition="bottom">
+                           tabBarPosition="bottom"
+                           page={this.state.selectedTab}>
           <Statistics tabLabel="md-stats"/>
-          <History navigator={this.props.navigator} tabLabel="md-list"/>
+          <History
+            activities={this.state.activities}
+            navigator={this.props.navigator}
+            tabLabel="md-list"/>
         </ScrollableTabView>
         <ActionButton
           buttonColor="rgba(231,76,60,1)"
           offsetY={64}
-          onPress={this.addNewActivity}
+          onPress={this.showAddModal}
         />
       </View>
     );
