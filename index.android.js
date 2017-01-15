@@ -13,7 +13,7 @@ import {
   Navigator
 } from 'react-native';
 
-import Statistics from './components/Statistics';
+import Main from './components/Main';
 
 export default class Wolo extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ export default class Wolo extends Component {
         <Navigator
           configureScene={ this.configureScene }
           style={{ flex:1, alignSelf: 'stretch' }}
-          initialRoute={{ component: Statistics }}
+          initialRoute={{ component: Main }}
           renderScene={ this.renderScene } />
       </View>
     );

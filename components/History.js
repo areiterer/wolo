@@ -3,13 +3,12 @@ import {
   Text,
   View,
   ListView,
-  Button
+  Button,
+  StyleSheet
 } from 'react-native';
 
-import Statistics from './Statistics';
 import ActivityItem from './ActivityItem';
-import AddButton from './AddButton';
-import AddActivity from './AddActivity';
+
 
 import { sampleActivities } from '../sampleData';
 
@@ -21,22 +20,11 @@ class History extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(sampleActivities)
     };
-
-    this.addNewActivity = this.addNewActivity.bind(this);
-  }
-
-  addNewActivity() {
-    this.props.navigator.push({
-      type: 'Modal',
-      component: AddActivity
-    })
   }
 
   render() {
     return (
       <View style={{ alignSelf: 'stretch', flex: 1 }}>
-        <Button title={"Go to Statistic"}
-                onPress={() => this.props.navigator.replace({component: Statistics}) }/>
         <ListView
           style={{ alignSelf: 'stretch' }}
           dataSource={this.state.dataSource}
@@ -50,7 +38,6 @@ class History extends Component {
           />
         }
         />
-        <AddButton onAdd={this.addNewActivity} />
       </View>
     );
   }
