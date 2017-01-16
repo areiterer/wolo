@@ -9,7 +9,7 @@ import Statistics from './Statistics';
 import History from './History';
 import AddActivity from './AddActivity';
 
-import * as Api from '../api';
+import * as Api from '../lib/api';
 
 
 class Main extends Component {
