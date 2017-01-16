@@ -25,9 +25,6 @@ export default class Wolo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          This is Wolo!
-        </Text>
         <Navigator
           configureScene={ this.configureScene }
           style={{ flex:1, alignSelf: 'stretch' }}
@@ -55,17 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
 
 AppRegistry.registerComponent('Wolo', () => Wolo);

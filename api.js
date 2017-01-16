@@ -1,8 +1,4 @@
-import { sampleActivities } from './sampleData';
-
-// TODO: Replace with array
-let activities = sampleActivities;
-let isRequesting = false;
+import storage from './storage';
 
 // I got this from here: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 function guid() {
@@ -16,40 +12,24 @@ function guid() {
 }
 
 export function getActivityList() {
-  this.isRequesting = true;
-
-  return new Promise(resolve => {
-    let results = activities.map(x => {
-      return {
-        id: x.id,
-        type: x.type,
-        date: x.date,
-        amount: x.amount,
-        unit: x.unit,
-        duration: x.duration
-      }
-    });
-    resolve(results);
-
-    this.isRequesting = false;
-  });
+  return storage.getAllDataForKey('activity');
 }
 
-export function saveActivity(activity) {
-  this.isRequesting = true;
-  return new Promise(resolve => {
-    let instance = JSON.parse(JSON.stringify(activity));
+export function saveActivity(activity, callback) {
+  if (!activity.id)
+    activity.id = guid();
 
-    if (instance.id) {
-      let found = activities.filter(x => x.id === instance.id);
-      let index = activities.indexOf(found);
-      activities[index] = instance;
-    } else {
-      instance.id = guid();
-      activities.push(instance);
-    }
-
-    this.isRequesting = false;
-    resolve(instance);
+  storage.save({
+    key: 'activity',
+    id: activity.id,
+    rawData: activity,
+    expires: null
   });
+
+  storage.getAllDataForKey('activity')
+    .then(activities => {
+      console.log(activities)
+    });
+
+  callback(activity);
 }

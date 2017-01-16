@@ -11,6 +11,7 @@ import AddActivity from './AddActivity';
 
 import * as Api from '../api';
 
+
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -25,15 +26,18 @@ class Main extends Component {
   }
 
   componentWillMount() {
-    Api.getActivityList().then(allActivities => this.setState({
-      activities: allActivities
-    }));
+    Api.getActivityList().then((activities) => {
+      this.setState({
+        activities: activities
+      })
+    });
   }
 
   addNewActivity(activity) {
-    Api.saveActivity(activity).then(act => this.setState({
-      activities: [...this.state.activities, act]
-    }));
+    Api.saveActivity(activity, act =>
+      this.setState({
+        activities: [...this.state.activities, act]
+      }));
 
     this.props.navigator.pop();
     this.setState({
