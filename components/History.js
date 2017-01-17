@@ -26,10 +26,10 @@ class History extends Component {
           enableEmptySections={true}
           renderRow={(rowData) =>
           <ActivityItem
-            type={rowData.type}
-            date={rowData.date}
+            type={rowData.type.name}
+            date={rowData.date ? new Date(rowData.date).toLocaleDateString() : 'n/A'}
             amount={rowData.amount}
-            unit={rowData.unit}
+            unit={rowData.type.unit}
             duration={rowData.duration}
           />
         }
