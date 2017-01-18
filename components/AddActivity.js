@@ -11,6 +11,8 @@ import {
   StyleSheet
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 const activityTypes = [
   {
     name: 'Running',
@@ -39,6 +41,7 @@ class AddActivity extends Component {
     };
 
     this.getActivity = this.getActivity.bind(this);
+    this._onActionSelected = this._onActionSelected.bind(this);
   }
 
   getActivity() {
@@ -52,12 +55,12 @@ class AddActivity extends Component {
 
   showPicker = async(stateKey, options) => {
     try {
-      var newState = {};
+      const newState = {};
       const { action, year, month, day } = await DatePickerAndroid.open(options);
       if (action === DatePickerAndroid.dismissedAction) {
         newState[stateKey + 'Text'] = 'dismissed';
       } else {
-        var date = new Date(year, month, day);
+        const date = new Date(year, month, day);
         newState[stateKey + 'Text'] = date.toLocaleDateString();
         newState[stateKey + 'Date'] = date;
       }
@@ -67,11 +70,29 @@ class AddActivity extends Component {
     }
   };
 
+  _onActionSelected = (position) => {
+    switch (toolbarActions[position].title) {
+      case "Save":
+        this.props.addNewActivity(this.getActivity());
+        return;
+      default:
+        return;
+    }
+  };
 
   render() {
     return (
-      <View style={{margin: 25}}>
-        <Text style={{margin: 10, textAlign: 'center', fontSize:20}}>Add a new activity</Text>
+      <View>
+        <Icon.ToolbarAndroid
+          title="Add new activity"
+          titleColor="white"
+          navIconName="md-arrow-back"
+          onIconClicked={this.props.navigator.pop}
+          style={styles.toolbar}
+          actions={toolbarActions}
+          onActionSelected={this._onActionSelected}
+          overflowIconName="md-more"
+        />
 
         <View style={styles.row}>
           <Text style={styles.label}>Type: </Text>
@@ -126,25 +147,14 @@ class AddActivity extends Component {
               style={styles.unit}>min</Text>
           </View>
         </View>
-
-        <View style={styles.row}>
-          <TouchableOpacity
-            style={{flex: 1}}
-            onPress={ () => this.props.addNewActivity(this.getActivity()) }>
-            <Text style={styles.flatButton}>Add</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{flex: 1}}
-            color={'#E74C3C'}
-            onPress={ () => this.props.navigator.pop() }>
-            <Text
-              style={styles.flatButton}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }
 }
+
+const toolbarActions = [
+  { title: 'Save', iconName: 'md-send', iconSize: 25, show: 'always' }
+];
 
 const styles = StyleSheet.create({
   row: {
@@ -169,7 +179,11 @@ const styles = StyleSheet.create({
     height: 40,
     fontWeight: 'bold',
     color: 'green'
-  }
+  },
+  toolbar: {
+    backgroundColor: '#00bbe0',
+    height: 56,
+  },
 });
 
 AddActivity.propTypes = {
