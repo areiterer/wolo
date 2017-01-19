@@ -13,28 +13,13 @@ import {
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const activityTypes = [
-  {
-    name: 'Running',
-    unit: 'km'
-  },
-  {
-    name: 'Cycling',
-    unit: 'km'
-  },
-  {
-    name: 'Burpees',
-    unit: 'reps'
-  }
-];
-
 
 class AddActivity extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      type: activityTypes[0],
+      type: this.props.activityTypes[0],
       date: new Date(),
       amount: 0,
       duration: 0
@@ -82,7 +67,7 @@ class AddActivity extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.modal}>
         <Icon.ToolbarAndroid
           title="Add new activity"
           titleColor="white"
@@ -100,7 +85,7 @@ class AddActivity extends Component {
                   prompt={'Type'}
                   selectedValue={this.state.type}
                   onValueChange={(type) => this.setState({type: type})}>
-            {activityTypes.map(type =>
+            {this.props.activityTypes.map(type =>
               <Picker.Item label={type.name}
                            value={type}
                            key={type.name}/>
@@ -157,21 +142,30 @@ const toolbarActions = [
 ];
 
 const styles = StyleSheet.create({
+  modal: {
+    backgroundColor: '#fff',
+    alignSelf: 'stretch',
+    flex: 1,
+  },
   row: {
     flexDirection: 'row',
     marginTop: 2,
-    marginBottom: 2
+    marginBottom: 2,
+    paddingLeft: 10,
+    paddingRight: 10
   },
   label: {
     flex: 1,
     textAlignVertical: 'center',
-    height: 40
+    height: 40,
+    color: '#212121'
   },
   unit: {
     flex: 1,
     textAlignVertical: 'center',
     height: 40,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#212121'
   },
   flatButton: {
     textAlign: 'center',
@@ -181,13 +175,15 @@ const styles = StyleSheet.create({
     color: 'green'
   },
   toolbar: {
-    backgroundColor: '#00bbe0',
+    backgroundColor: '#455A64',
     height: 56,
   },
 });
 
 AddActivity.propTypes = {
-  navigator: PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired,
+  activityTypes: PropTypes.array.isRequired,
+  addNewActivity: PropTypes.func.isRequired
 };
 
 export default AddActivity;

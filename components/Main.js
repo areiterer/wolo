@@ -11,6 +11,9 @@ import AddActivity from './AddActivity';
 
 import * as Api from '../lib/api';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
 
 class Main extends Component {
   constructor(props) {
@@ -18,6 +21,7 @@ class Main extends Component {
 
     this.state = {
       activities: [],
+      activityTypes: [],
       selectedTab: 0
     };
 
@@ -31,6 +35,13 @@ class Main extends Component {
         activities: activities
       })
     });
+
+    Api.getActivityTypes().then((types) => {
+      this.setState({
+        activityTypes: types
+      })
+    });
+
   }
 
   addNewActivity(activity) {
@@ -50,6 +61,7 @@ class Main extends Component {
         type: 'Modal',
         component: AddActivity,
         passProps: {
+          activityTypes: this.state.activityTypes,
           addNewActivity: this.addNewActivity
         }
       }
@@ -68,14 +80,26 @@ class Main extends Component {
             navigator={this.props.navigator}
             tabLabel="md-list"/>
         </ScrollableTabView>
+
+        {/*buttonColor="rgba(231,76,60,1)"*/}
         <ActionButton
-          buttonColor="rgba(231,76,60,1)"
-          offsetY={64}
-          onPress={this.showAddModal}
-        />
+          buttonColor="#CDDC39"
+          offsetY={56}>
+          <ActionButton.Item buttonColor='#F0F4C3' title="Add activity" onPress={this.showAddModal}>
+            <Icon name="check" style={styles.actionButtonIcon}/>
+          </ActionButton.Item>
+        </ActionButton>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: '#212121',
+  },
+});
 
 export default Main;

@@ -27,12 +27,13 @@ let CustomTabBar = React.createClass({
 
   //color between rgb(59,89,152) and rgb(204,204,204)
   iconColor(progress) {
-    const red = 59 + (204 - 59) * progress;
-    const green = 89 + (204 - 89) * progress;
-    const blue = 152 + (204 - 152) * progress;
+    const red = 205 + (207 - 205) * progress;
+    const green = 220 + (216 - 220) * progress;
+    const blue = 57 + (220 - 57) * progress;
     return `rgb(${red}, ${green}, ${blue})`;
   },
 
+  // color={this.props.activeTab === i ? 'rgb(59,89,152)' : 'rgb(204,204,204)'}
   render() {
     return <View style={[styles.tabs, this.props.style, ]}>
       {this.props.tabs.map((tab, i) => {
@@ -40,7 +41,7 @@ let CustomTabBar = React.createClass({
           <Icon
             name={tab}
             size={30}
-            color={this.props.activeTab === i ? 'rgb(59,89,152)' : 'rgb(204,204,204)'}
+            color={this.props.activeTab === i ? 'rgb(205,220,57)' : 'rgb(207,216,220)'}
             ref={(icon) => { this.tabIcons[i] = icon; }}
           />
         </TouchableOpacity>;
