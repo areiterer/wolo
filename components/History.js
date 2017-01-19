@@ -15,6 +15,9 @@ class History extends Component {
     super(props);
 
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
+    this._renderRow = this._renderRow.bind(this);
+    this._renderSeparator = this._renderSeparator.bind(this);
   }
 
   render() {
@@ -24,17 +27,34 @@ class History extends Component {
           style={{ alignSelf: 'stretch' }}
           dataSource={this.ds.cloneWithRows(this.props.activities)}
           enableEmptySections={true}
-          renderRow={(rowData) =>
-          <ActivityItem
-            type={rowData.type.name}
-            date={rowData.date ? new Date(rowData.date).toLocaleDateString() : 'n/A'}
-            amount={rowData.amount}
-            unit={rowData.type.unit}
-            duration={rowData.duration}
-          />
-        }
+          renderRow={this._renderRow}
+          renderSeparator={this._renderSeparator}
         />
       </View>
+    );
+  }
+
+  _renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
+    return (
+      <View
+        key={`${sectionID}-${rowID}`}
+        style={{
+          height: adjacentRowHighlighted ? 4 : 1,
+          backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#BDBDBD',
+        }}
+      />
+    );
+  }
+
+  _renderRow(rowData) {
+    return (
+      <ActivityItem
+        type={rowData.type.name}
+        date={rowData.date ? new Date(rowData.date).toLocaleDateString() : 'n/A'}
+        amount={rowData.amount}
+        unit={rowData.type.unit}
+        duration={rowData.duration}
+      />
     );
   }
 }
