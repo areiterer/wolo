@@ -38,20 +38,15 @@ class AddActivity extends Component {
     }
   }
 
-  showPicker = async(stateKey, options) => {
+  showPicker = async(options) => {
     try {
-      const newState = {};
       const { action, year, month, day } = await DatePickerAndroid.open(options);
-      if (action === DatePickerAndroid.dismissedAction) {
-        newState[stateKey + 'Text'] = 'dismissed';
-      } else {
+      if (action !== DatePickerAndroid.dismissedAction) {
         const date = new Date(year, month, day);
-        newState[stateKey + 'Text'] = date.toLocaleDateString();
-        newState[stateKey + 'Date'] = date;
+        this.setState({date: new Date(date)});
       }
-      this.setState(newState);
     } catch ({ code, message }) {
-      console.warn(`Error in example '${stateKey}': `, message);
+      console.warn('Error:', message);
     }
   };
 
@@ -96,11 +91,13 @@ class AddActivity extends Component {
         <View style={styles.row}>
           <Text style={styles.label}>Date: </Text>
           <TouchableWithoutFeedback
-            onPress={this.showPicker.bind(this, 'spinner', {date: this.state.date, mode: 'spinner'})}>
+            onPress={this.showPicker.bind(this, {date: this.state.date, mode: 'spinner'})}>
             <View
               style={{flex:3, height:40}}>
               <Text
-                style={{paddingLeft:3, height: 40, textAlignVertical: 'center', color: 'black' }}>{this.state.date.toLocaleDateString()}</Text>
+                style={{paddingLeft:3, height: 40, textAlignVertical: 'center', color: 'black' }}>
+                {this.state.date.toLocaleDateString()}
+                </Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
