@@ -6,7 +6,7 @@ import {
   Button
 } from 'react-native';
 
-import PercentageCircle from './Circle';
+import PercentageCircle from 'react-native-percentage-circle';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //http://paletton.com/palette.php?uid=53K130ktQevWnuwDUnUld8daM2u
