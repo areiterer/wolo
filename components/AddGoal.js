@@ -1,59 +1,39 @@
 import React, { Component, PropTypes } from 'react';
+
 import {
   Text,
   View,
-  Button,
   TextInput,
   Picker,
-  TouchableWithoutFeedback,
-  DatePickerAndroid,
-  TouchableOpacity,
   StyleSheet
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-
-class AddActivity extends Component {
+class AddGoal extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       type: this.props.activityTypes[0],
-      date: new Date(),
       amount: 0,
-      duration: 0
     };
 
-    this.getActivity = this.getActivity.bind(this);
     this._onActionSelected = this._onActionSelected.bind(this);
+    this._getGoal = this._getGoal.bind(this);
   }
 
-  getActivity() {
+  _getGoal() {
     return {
       type: this.state.type,
-      date: this.state.date,
-      amount: this.state.amount,
-      duration: this.state.duration
-    }
+      amount: this.state.amount
+    };
   }
-
-  showPicker = async(options) => {
-    try {
-      const { action, year, month, day } = await DatePickerAndroid.open(options);
-      if (action !== DatePickerAndroid.dismissedAction) {
-        const date = new Date(year, month, day);
-        this.setState({date: new Date(date)});
-      }
-    } catch ({ code, message }) {
-      console.warn('Error:', message);
-    }
-  };
 
   _onActionSelected = (position) => {
     switch (toolbarActions[position].title) {
       case "Save":
-        this.props.addNewActivity(this.getActivity());
+        this.props.addNewGoal(this._getGoal());
         return;
       default:
         return;
@@ -64,7 +44,7 @@ class AddActivity extends Component {
     return (
       <View style={styles.modal}>
         <Icon.ToolbarAndroid
-          title="Add new activity"
+          title="Set a new goal"
           titleColor="white"
           navIconName="md-arrow-back"
           onIconClicked={this.props.navigator.pop}
@@ -73,7 +53,6 @@ class AddActivity extends Component {
           onActionSelected={this._onActionSelected}
           overflowIconName="md-more"
         />
-
         <View style={styles.row}>
           <Text style={styles.label}>Type: </Text>
           <Picker style={{flex: 3, height:40, marginRight:21}}
@@ -87,21 +66,6 @@ class AddActivity extends Component {
             )}
           </Picker>
         </View>
-
-        <View style={styles.row}>
-          <Text style={styles.label}>Date: </Text>
-          <TouchableWithoutFeedback
-            onPress={this.showPicker.bind(this, {date: this.state.date, mode: 'spinner'})}>
-            <View
-              style={{flex:3, height:40}}>
-              <Text
-                style={{paddingLeft:3, height: 40, textAlignVertical: 'center', color: 'black' }}>
-                {this.state.date.toLocaleDateString()}
-                </Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-
         <View style={styles.row}>
           <Text style={styles.label}>Amount: </Text>
           <View style={{flex: 3, flexDirection:'row', height:40}}>
@@ -113,20 +77,6 @@ class AddActivity extends Component {
               value={this.state.amount.toString()}/>
             <Text
               style={styles.unit}>{this.state.type ? this.state.type.unit : 'n/A'}</Text>
-          </View>
-        </View>
-
-        <View style={styles.row}>
-          <Text style={styles.label}>Duration: </Text>
-          <View style={{flex: 3, flexDirection:'row', height:40}}>
-            <TextInput
-              style={{flex: 3, height:40}}
-              placeholder={'Duration (Minutes)'}
-              keyboardType={'numeric'}
-              onChangeText={(text) =>{this.setState({duration: Number(text)})}}
-              value={this.state.duration.toString()}/>
-            <Text
-              style={styles.unit}>min</Text>
           </View>
         </View>
       </View>
@@ -143,6 +93,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignSelf: 'stretch',
     flex: 1,
+  },
+  toolbar: {
+    backgroundColor: '#455A64',
+    height: 56,
+    elevation: 2
   },
   row: {
     flexDirection: 'row',
@@ -164,17 +119,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#212121'
   },
-  toolbar: {
-    backgroundColor: '#455A64',
-    height: 56,
-    elevation: 2
-  },
 });
 
-AddActivity.propTypes = {
+AddGoal.propTypes = {
   navigator: PropTypes.object.isRequired,
   activityTypes: PropTypes.array.isRequired,
-  addNewActivity: PropTypes.func.isRequired
+  addNewGoal: PropTypes.func.isRequired
 };
 
-export default AddActivity;
+export default AddGoal;

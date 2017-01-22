@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   Text,
   View,
@@ -22,29 +22,33 @@ class Statistics extends Component {
         <View style={{alignItems: 'center', margin: 30, marginTop:50}}>
           <PercentageCircle
             radius={130}
-            percent={60}
+            percent={40}
             color={"#CDDC39"}
             borderWidth={"5"}
             bgcolor={"#757575"}
             innerColor={'#455A64'}>
             <Icon style={styles.activityIcon} name="run" size={70} color="#fff"/>
-            <Text style={{fontSize: 30, lineHeight:40, color: '#fff'}}>50%</Text>
-            <Text style={{color: '#fff'}}>200 km running</Text>
+            <Text style={{fontSize: 30, lineHeight:40, color: '#fff'}}>40%</Text>
+            <Text style={{color: '#fff'}}>160 km running</Text>
           </PercentageCircle>
         </View>
 
-        <View style={styles.activityRow}>
-          <Icon style={styles.activityIcon} name="run" size={40} color="#fff"/>
-            <Text style={styles.activityText}>400 km running</Text>
-        </View>
-        <View style={styles.activityRow}>
-          <Icon style={styles.activityIcon} name="bike" size={40} color="#fff"/>
-          <Text style={styles.activityText}>1000 km cycling</Text>
-        </View>
-        <View style={styles.activityRow}>
-          <Icon style={styles.activityIcon} name="counter" size={40} color="#fff"/>
-          <Text style={styles.activityText}>10000 burpees</Text>
-        </View>
+        {
+          this.props.goals.map((goal) => {
+            return (
+              <View key={goal.id}
+                    style={styles.activityRow}>
+                <Icon style={styles.activityIcon} name={goal.type.icon} size={40} color="#fff"/>
+                <Text style={styles.activityText}>{
+                  goal.type.unit === 'km' ?
+                    goal.amount + ' km ' + goal.type.name
+                    : goal.amount + ' ' + goal.type.name
+                }
+                </Text>
+              </View>
+            );
+          })
+        }
       </View>
     )
   }
@@ -72,6 +76,10 @@ const styles = {
   activityIcon: {
     padding: 10,
   }
+};
+
+Statistics.propTypes = {
+  goals: PropTypes.array.isRequired
 };
 
 export default Statistics;

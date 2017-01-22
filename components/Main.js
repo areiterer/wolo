@@ -8,6 +8,7 @@ import CustomTabBar from './TabBar/CustomTabBar';
 import Statistics from './Statistics';
 import History from './History';
 import AddActivity from './AddActivity';
+import AddGoal from './AddGoal';
 
 import * as Api from '../lib/api';
 
@@ -21,12 +22,15 @@ class Main extends Component {
 
     this.state = {
       activities: [],
+      goals: [],
       activityTypes: [],
       selectedTab: 0
     };
 
     this.addNewActivity = this.addNewActivity.bind(this);
-    this.showAddModal = this.showAddModal.bind(this);
+    this.addNewGoal = this.addNewGoal.bind(this);
+    this.showAddActivityModal = this.showAddActivityModal.bind(this);
+    this.showAddGoalModal = this.showAddGoalModal.bind(this);
   }
 
   componentWillMount() {
@@ -36,12 +40,17 @@ class Main extends Component {
       })
     });
 
+    Api.getGoals().then((goals) => {
+      this.setState({
+        goals: goals
+      })
+    });
+
     Api.getActivityTypes().then((types) => {
       this.setState({
         activityTypes: types
       })
     });
-
   }
 
   addNewActivity(activity) {
@@ -56,7 +65,19 @@ class Main extends Component {
     })
   }
 
-  showAddModal() {
+  addNewGoal(goal) {
+    Api.saveGoal(goal, g =>
+      this.setState({
+        goals: [...this.state.goals, g]
+      }));
+
+    this.props.navigator.pop();
+    this.setState({
+      selectedTab: 0
+    })
+  }
+
+  showAddActivityModal() {
     this.props.navigator.push({
         type: 'Modal',
         component: AddActivity,
@@ -68,13 +89,27 @@ class Main extends Component {
     )
   }
 
+  showAddGoalModal() {
+    this.props.navigator.push({
+        type: 'Modal',
+        component: AddGoal,
+        passProps: {
+          activityTypes: this.state.activityTypes,
+          addNewGoal: this.addNewGoal
+        }
+      }
+    )
+  }
+
   render() {
     return (
       <View style={{alignSelf: 'stretch', flex: 1}}>
         <ScrollableTabView renderTabBar={() => <CustomTabBar />}
                            tabBarPosition="bottom"
                            page={this.state.selectedTab}>
-          <Statistics tabLabel="md-stats"/>
+          <Statistics
+            goals={this.state.goals}
+            tabLabel="md-stats"/>
           <History
             activities={this.state.activities}
             navigator={this.props.navigator}
@@ -85,7 +120,10 @@ class Main extends Component {
         <ActionButton
           buttonColor="#CDDC39"
           offsetY={56}>
-          <ActionButton.Item buttonColor='#F0F4C3' title="Add activity" onPress={this.showAddModal}>
+          <ActionButton.Item buttonColor='#F0F4C3' title="Log activity" onPress={this.showAddActivityModal}>
+            <Icon name="check" style={styles.actionButtonIcon}/>
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#F0F4C3' title="Set new goal" onPress={this.showAddGoalModal}>
             <Icon name="check" style={styles.actionButtonIcon}/>
           </ActionButton.Item>
         </ActionButton>
