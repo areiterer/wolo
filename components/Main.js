@@ -31,6 +31,7 @@ class Main extends Component {
     this.addNewGoal = this.addNewGoal.bind(this);
     this.showAddActivityModal = this.showAddActivityModal.bind(this);
     this.showAddGoalModal = this.showAddGoalModal.bind(this);
+    this.deleteGoal = this.deleteGoal.bind(this);
   }
 
   componentWillMount() {
@@ -77,6 +78,14 @@ class Main extends Component {
     })
   }
 
+  deleteGoal(id) {
+    Api.deleteGoal(id, (deletedId) => {
+      this.setState({
+        goals: this.state.goals.filter(g => g.id != deletedId)
+      })
+    });
+  }
+
   showAddActivityModal() {
     this.props.navigator.push({
         type: 'Modal',
@@ -109,21 +118,23 @@ class Main extends Component {
                            page={this.state.selectedTab}>
           <Statistics
             goals={this.state.goals}
-            tabLabel="md-stats"/>
+            activities={this.state.activities}
+            onDeleteGoal={this.deleteGoal}
+            tabLabel="md-stats" />
           <History
             activities={this.state.activities}
             navigator={this.props.navigator}
-            tabLabel="md-list"/>
+            tabLabel="md-list" />
         </ScrollableTabView>
 
         {/*buttonColor="rgba(231,76,60,1)"*/}
         <ActionButton
           buttonColor="#CDDC39"
           offsetY={56}>
-          <ActionButton.Item buttonColor='#F0F4C3' title="Log activity" onPress={this.showAddActivityModal}>
+          <ActionButton.Item buttonColor='#F0F4C3' title="Set new goal" onPress={this.showAddGoalModal}>
             <Icon name="check" style={styles.actionButtonIcon}/>
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#F0F4C3' title="Set new goal" onPress={this.showAddGoalModal}>
+          <ActionButton.Item buttonColor='#F0F4C3' title="Log activity" onPress={this.showAddActivityModal}>
             <Icon name="check" style={styles.actionButtonIcon}/>
           </ActionButton.Item>
         </ActionButton>

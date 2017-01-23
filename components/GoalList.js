@@ -2,55 +2,43 @@ import React, { Component, PropTypes } from 'react';
 import {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
+  findNodeHandle,
+  UIManager
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import GoalButton from './GoalButton';
 
 class GoalList extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return <View>
-        {
-          this.props.goals.map((goal) => {
-            return (
-              <View key={goal.id}
-                    style={styles.activityRow}>
-                <Icon style={styles.activityIcon} name={goal.type.icon} size={40} color="#fff"/>
-                <Text style={styles.activityText}>{
-                  goal.type.unit === 'km' ?
-                    goal.amount + ' km ' + goal.type.name
-                    : goal.amount + ' ' + goal.type.name
-                }
-                </Text>
-              </View>
-            );
-          })
-        }
-      </View>
+      {
+        this.props.goals.map((goal) => {
+          return <GoalButton
+            key={goal.id}
+            active={goal.id === this.props.activeGoal}
+            goal={goal}
+            onDelete={this.props.onDelete}
+            onSelect={this.props.onSelect}
+          />
+        })
+      }
+    </View>
   }
 }
 
-const styles = StyleSheet.create({
-  activityRow: {
-    flexDirection: 'row',
-    paddingLeft: 100,
-    paddingRight: 80,
-    margin: 2
-  },
-  activityText: {
-    textAlignVertical: 'center',
-    flex: 2,
-    height: 65,
-    paddingLeft: 20,
-    color: '#fff'
-  },
-  activityIcon: {
-    padding: 10,
-  }
-});
 
 GoalList.propTypes = {
-  goals: PropTypes.array.isRequired
+  goals: PropTypes.array.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  activeGoal: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired
 };
 
 export default GoalList;
