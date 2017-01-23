@@ -40,7 +40,6 @@ class Statistics extends Component {
       return <Progress activities={this.props.activities} goal={selGoal}/>;
     else
       return null;
-
   }
 
   render() {
@@ -68,7 +67,6 @@ class Statistics extends Component {
           fontSize: 17,
           textAlign: 'center',
           textAlignVertical: 'center'}}>You did not define goals yet, add one to start.</Text>
-
     )
   }
 }

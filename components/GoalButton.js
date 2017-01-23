@@ -23,18 +23,17 @@ class GoalButton extends Component {
       <TouchableNativeFeedback
         onPress={() => this.props.onSelect(goal.id)}
         onLongPress={() => {
+          UIManager.showPopupMenu(
+            findNodeHandle(this.touchable),
+            ["Delete goal"],
+            () => console.log("something went wrong with the popup menu"),
+            (e, i)=> {
+              if(e === 'itemSelected' && i === 0)
+                this.props.onDelete(goal.id);
+            },
+          );
 
-                UIManager.showPopupMenu(
-                  findNodeHandle(this.touchable),
-                  ["Delete goal"],
-                  () => console.log("something went wrong with the popup menu"),
-                  (e, i)=> {
-                    if(e === 'itemSelected' && i === 0)
-                      this.props.onDelete(goal.id);
-                  },
-                );
-
-              }}>
+        }}>
         <View ref={(ctrl) => { this.touchable = ctrl; }}
               style={[styles.activityRow, {backgroundColor: this.props.active ? 'transparent' : 'transparent'}]}>
           <Icon style={styles.activityIcon} name={goal.type.icon} size={40}
