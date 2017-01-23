@@ -65,7 +65,7 @@ class Statistics extends Component {
           color: '#fff',
           alignSelf: 'stretch',
           flex: 1,
-          fontSize: 15,
+          fontSize: 17,
           textAlign: 'center',
           textAlignVertical: 'center'}}>You did not define goals yet, add one to start.</Text>
 

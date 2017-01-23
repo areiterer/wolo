@@ -32,6 +32,7 @@ class Main extends Component {
     this.showAddActivityModal = this.showAddActivityModal.bind(this);
     this.showAddGoalModal = this.showAddGoalModal.bind(this);
     this.deleteGoal = this.deleteGoal.bind(this);
+    this.deleteActivity = this.deleteActivity.bind(this);
   }
 
   componentWillMount() {
@@ -86,6 +87,14 @@ class Main extends Component {
     });
   }
 
+  deleteActivity(id) {
+    Api.deleteActivity(id, (deletedId) => {
+      this.setState({
+        activities: this.state.activities.filter(a => a.id != deletedId)
+      })
+    });
+  }
+
   showAddActivityModal() {
     this.props.navigator.push({
         type: 'Modal',
@@ -124,6 +133,7 @@ class Main extends Component {
           <History
             activities={this.state.activities}
             navigator={this.props.navigator}
+            onDeleteActivity={this.deleteActivity}
             tabLabel="md-list" />
         </ScrollableTabView>
 

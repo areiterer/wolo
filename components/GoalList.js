@@ -12,10 +12,6 @@ import {
 import GoalButton from './GoalButton';
 
 class GoalList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return <View>
       {

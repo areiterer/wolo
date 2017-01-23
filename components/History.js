@@ -48,12 +48,14 @@ class History extends Component {
   _renderRow(rowData) {
     return (
       <ActivityItem
+        id={rowData.id}
         type={rowData.type.name}
         date={rowData.date ? new Date(rowData.date).toLocaleDateString() : 'n/A'}
         amount={rowData.amount}
         unit={rowData.type.unit}
         duration={rowData.duration}
         iconName={rowData.type.icon}
+        onDelete={this.props.onDeleteActivity}
       />
     );
   }
@@ -76,14 +78,15 @@ class History extends Component {
         margin: 50,
         color: '#fff',
         fontSize: 17
-      }}>{"The history is empty, let's fill it!"}</Text>
+      }}>{"The log book is empty, let's fill it!"}</Text>
     );
   }
 }
 
 History.propTypes = {
   navigator: PropTypes.object.isRequired,
-  activities: PropTypes.array.isRequired
+  activities: PropTypes.array.isRequired,
+  onDeleteActivity: PropTypes.func.isRequired
 };
 
 export default History;
